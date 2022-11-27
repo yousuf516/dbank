@@ -7,18 +7,22 @@ actor DBank {
     stable var startTime = Time.now();
 
     public func withdrawl(amount: Float) {
-        let tempValue: Float = currentValue - amount;
-        if (tempValue >= 0) {
-            currentValue -= amount;
-            Debug.print(debug_show(currentValue));
-        }
-        else {
-            Debug.print("Amount is larger than the amount in bank")
-        }
+        if(amount > 0) {
+            let tempValue: Float = currentValue - amount;
+            if (tempValue >= 0) {
+                currentValue -= amount;
+                Debug.print(debug_show(currentValue));
+            }
+            else {
+                Debug.print("Amount is larger than the amount in bank")
+            }
+        };
     };
 
     public func topUp(amount: Float) {
-        currentValue += amount;
+        if(amount > 0) {
+            currentValue += amount; 
+        };
         Debug.print(debug_show(currentValue));
     };
 
@@ -30,8 +34,8 @@ actor DBank {
         let currentTime = Time.now();
         let timeElapsedNS = currentTime - startTime;
         let timeElapsedS = timeElapsedNS / 1000000000;
-        let intrust = 1.01;
-        currentValue := currentValue * (1.01 ** Float.fromInt(timeElapsedS));
+        let intrust = 1.0001;
+        currentValue := currentValue * (intrust ** Float.fromInt(timeElapsedS));
         startTime := currentTime;
     }
 
